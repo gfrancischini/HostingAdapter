@@ -9,8 +9,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("Gabriel Parelli Francischini")]
 [assembly: AssemblyProduct("HostingAdapter")]
 [assembly: AssemblyTrademark("Gabriel Parelli Francischini")]
-[assembly: AssemblyVersion("0.0.1.0")]
-
+[assembly: AssemblyVersion("0.0.1")]
+[assembly: AssemblyDescription("Hosting Adapter for helping construct Socket and Std Servers")]
+[assembly: AssemblyTitle("Hosting Adapter")]
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
 // COM, set the ComVisible attribute to true on that type.

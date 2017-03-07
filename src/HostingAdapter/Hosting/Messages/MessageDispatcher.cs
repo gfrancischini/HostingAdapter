@@ -32,6 +32,7 @@ using HostingAdapter.Hosting.Channel;
 using HostingAdapter.Hosting.Contracts;
 using HostingAdapter.Hosting.Exceptions;
 using HostingAdapter.Utility;
+using Newtonsoft.Json.Linq;
 
 namespace HostingAdapter.Hosting.Messages
 {
@@ -245,9 +246,14 @@ namespace HostingAdapter.Hosting.Messages
                     // Continue the loop
                     continue;
                 }
-                catch (EndOfStreamException)
+                catch (EndOfStreamException e)
                 {
                     // The stream has ended, end the message loop
+                    //await MessageWriter.WriteEvent(HostDisconnectEvent.Type, new HostDisconnectEventParams { Message = e.Message });
+
+                    newMessage = Message.Event(HostDisconnectEvent.Type.MethodName, JToken.FromObject(new HostDisconnectEventParams { Message = e.Message }));
+                    await this.DispatchMessage(newMessage, this.MessageWriter);
+
                     break;
                 }
                 catch (Exception e)

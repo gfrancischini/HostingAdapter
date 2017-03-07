@@ -29,6 +29,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using HostingAdapter.Hosting.Contracts;
+using HostingAdapter.Hosting.Exceptions;
 using HostingAdapter.Hosting.Serializers;
 using HostingAdapter.Utility;
 using Newtonsoft.Json.Linq;
@@ -166,7 +167,7 @@ namespace HostingAdapter.Hosting.Messages
                 // ending suddenly).  For now, just terminate the language
                 // server immediately.
                 // TODO: Provide a more graceful shutdown path
-                //throw new EndOfStreamException(SR.HostingUnexpectedEndOfStream);
+                throw new EndOfStreamException(StringResource.HostingUnexpectedEndOfStream);
             }
 
             return true;
@@ -205,7 +206,7 @@ namespace HostingAdapter.Hosting.Messages
                     int currentLength = header.IndexOf(':');
                     if (currentLength == -1)
                     {
-                        //throw new ArgumentException(SR.HostingHeaderMissingColon);
+                        throw new ArgumentException(StringResource.HostingHeaderMissingColon);
                     }
 
                     var key = header.Substring(0, currentLength);
@@ -217,13 +218,13 @@ namespace HostingAdapter.Hosting.Messages
                 string contentLengthString;
                 if (!this.messageHeaders.TryGetValue("Content-Length", out contentLengthString))
                 {
-                    //throw new MessageParseException("", SR.HostingHeaderMissingContentLengthHeader);
+                    throw new MessageParseException("", StringResource.HostingHeaderMissingContentLengthHeader);
                 }
 
                 // Parse the content length to an integer
                 if (!int.TryParse(contentLengthString, out this.expectedContentLength))
                 {
-                    //throw new MessageParseException("", SR.HostingHeaderMissingContentLengthValue);
+                    throw new MessageParseException("", StringResource.HostingHeaderMissingContentLengthValue);
                 }
             }
             catch (Exception)

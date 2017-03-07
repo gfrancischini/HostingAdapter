@@ -1,16 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26206.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A3428196-8D2C-412D-B5DE-03AECF1B735C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{67FF8D38-C5D9-4F22-B5E6-116EA992ACAD}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "HostingAdapter", "src\HostingAdapter\HostingAdapter.xproj", "{59720158-E959-4175-9987-866BD0EE7F28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HostingAdapter", "src\HostingAdapter\HostingAdapter.csproj", "{59720158-E959-4175-9987-866BD0EE7F28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

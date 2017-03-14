@@ -66,6 +66,11 @@ namespace HostingAdapter.Hosting.Protocol
         protected MessageDispatcher MessageDispatcher { get; set; }
 
         /// <summary>
+        /// The maximum time to wait for a message response
+        /// </summary>
+        private int Timeout { get; set; }
+
+        /// <summary>
         /// Initializes an instance of the protocol server using the
         /// specified channel for communication.
         /// </summary>
@@ -76,10 +81,11 @@ namespace HostingAdapter.Hosting.Protocol
         /// The type of message protocol used by the endpoint.
         /// </param>
         public ProtocolEndpoint(
-            ChannelBase protocolChannel)
+            ChannelBase protocolChannel, int timeout = 10000)
         {
             this.protocolChannel = protocolChannel;
             this.originalSynchronizationContext = SynchronizationContext.Current;
+            this.Timeout = timeout;
         }
 
         /// <summary>
@@ -199,12 +205,28 @@ namespace HostingAdapter.Hosting.Protocol
 
             if (responseTask != null)
             {
-                var responseMessage = await responseTask.Task;
+                //if this is a response task we should wait the maximum timeout. If called by timeout we will return a null response
+                var timeoutCancellationTokenSource = new CancellationTokenSource();
+                var completedTask = await Task.WhenAny(responseTask.Task, Task.Delay(Timeout, timeoutCancellationTokenSource.Token));
 
-                return
+                if (completedTask == responseTask.Task)
+                {
+                    timeoutCancellationTokenSource.Cancel();
+                    var responseMessage = await responseTask.Task;  // Very important in order to propagate exceptions
+
+                    return
                     responseMessage.Contents != null ?
                         responseMessage.Contents.ToObject<TResult>() :
                         default(TResult);
+                }
+                else
+                {
+                    //Every response handler must be carefull that timeout will return null object
+                    //throw new TimeoutException("The operation has timed out.");
+                    return default(TResult);
+                }
+
+
             }
             else
             {

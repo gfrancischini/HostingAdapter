@@ -127,6 +127,7 @@ namespace HostingAdapter.Hosting.Contracts
         {
             return new Message
             {
+                Id = "0",
                 MessageType = MessageType.Event,
                 Method = method,
                 Contents = contents

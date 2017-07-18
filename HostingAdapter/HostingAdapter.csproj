@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Copyright>Gabriel Parelli Francischini - MIT License</Copyright>
+    <AssemblyTitle>Hosting Adapter</AssemblyTitle>
+    <VersionPrefix>0.0.2</VersionPrefix>
+    <Authors>Gabriel Parelli Francischini</Authors>
+    <AssemblyName>HostingAdapter</AssemblyName>
+    <PackageId>HostingAdapter</PackageId>
+    <PackageTags>Host;Adapater;Socket;Channel;Std;Channel;Server;Connection</PackageTags>
+    <PackageProjectUrl>https://github.com/gfrancischini/HostingAdapter</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/gfrancischini/HostingAdapter/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/gfrancischini/HostingAdapter</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Hosting\Channel\" />
+    <Folder Include="Hosting\Contracts\" />
+    <Folder Include="Hosting\Exceptions\" />
+    <Folder Include="Hosting\Messages\" />
+    <Folder Include="Hosting\Serializers\" />
+    <Folder Include="Hosting\Protocol\" />
+    <Folder Include="Utility\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+</Project>

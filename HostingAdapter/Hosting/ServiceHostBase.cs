@@ -29,14 +29,25 @@ using HostingAdapter.Hosting.Protocol;
 
 namespace HostingAdapter.Hosting
 {
-    public abstract class ServiceHostBase : ProtocolEndpoint
-    {
-        private bool isStarted;
-        private TaskCompletionSource<bool> serverExitedTask;
+	public abstract class ServiceHostBase : ProtocolEndpoint
+	{
 
-        protected ServiceHostBase(ChannelBase serverChannel) :
-            base(serverChannel)
-        {
-        }
-    }
+		protected ServiceHostBase(ChannelBase serverChannel) :
+			base(serverChannel)
+		{
+		}
+
+		protected override Task OnStart()
+		{
+			return Task.FromResult(true);
+		}
+
+
+		public async Task Exit()
+		{
+			// Stop the server channel
+			await this.Stop();
+		}
+
+	}
 }

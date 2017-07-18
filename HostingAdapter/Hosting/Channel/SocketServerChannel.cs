@@ -36,13 +36,6 @@ namespace HostingAdapter.Hosting.Channel
     public class SocketServerChannel : ChannelBase
     {
         /// <summary>
-        /// Provides a server implementation for the standard I/O channel.
-        /// When started in a process, attaches to the console I/O streams
-        /// to communicate with the client that launched the process.
-        /// </summary>
-        private Stream inputStream;
-
-        /// <summary>
         /// The port of the connection
         /// </summary>
         public int Port
@@ -144,6 +137,7 @@ namespace HostingAdapter.Hosting.Channel
         {
             // No default implementation needed, streams will be
             // disposed on process shutdown.
+            ClientSocket.Shutdown(SocketShutdown.Both);
         }
 
         /// <summary>

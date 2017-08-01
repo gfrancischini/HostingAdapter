@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Copyright>Gabriel Parelli Francischini - MIT License</Copyright>
     <AssemblyTitle>Hosting Adapter</AssemblyTitle>
-    <VersionPrefix>0.0.2</VersionPrefix>
+    <VersionPrefix>0.0.4</VersionPrefix>
     <Authors>Gabriel Parelli Francischini</Authors>
     <AssemblyName>HostingAdapter</AssemblyName>
     <PackageId>HostingAdapter</PackageId>

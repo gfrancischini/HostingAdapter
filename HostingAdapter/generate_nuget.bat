@@ -1,1 +1,1 @@
-dotnet pack --configuration release --version-suffix "rc05"
+dotnet pack --configuration release

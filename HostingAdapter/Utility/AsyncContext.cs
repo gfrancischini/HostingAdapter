@@ -42,10 +42,18 @@ namespace HostingAdapter.Utility
                 t => threadSyncContext.EndLoop(),
                 TaskScheduler.Default);
 
-            // Start the synchronization context's request loop and
-            // wait for the main task to complete
-            threadSyncContext.RunLoopOnCurrentThread();
-            asyncMainTask.GetAwaiter().GetResult();
+			// Start the synchronization context's request loop and
+			// wait for the main task to complete
+			try
+			{
+				threadSyncContext.RunLoopOnCurrentThread();
+				asyncMainTask.GetAwaiter().GetResult();
+			}
+			catch (Exception e)
+			{
+				Logger.Write(LogLevel.Error, String.Format("Fatal Error: {0}", e.StackTrace.ToString()));
+				throw e;
+			}
         }
     }
 }

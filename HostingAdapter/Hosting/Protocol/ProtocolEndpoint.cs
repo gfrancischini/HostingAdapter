@@ -83,10 +83,14 @@ namespace HostingAdapter.Hosting.Protocol
         public ProtocolEndpoint(
             ChannelBase protocolChannel, int timeout = 10000)
         {
-            this.protocolChannel = protocolChannel;
-            this.originalSynchronizationContext = SynchronizationContext.Current;
-            this.Timeout = timeout;
-        }
+			this.originalSynchronizationContext = SynchronizationContext.Current;
+			this.Setup(protocolChannel, timeout);
+		}
+		
+		public void Setup(ChannelBase protocolChannel, int timeout = 10000) {
+			this.protocolChannel = protocolChannel;
+			this.Timeout = timeout;
+		}
 
         /// <summary>
         /// Starts the language server client and sends the Initialize method.

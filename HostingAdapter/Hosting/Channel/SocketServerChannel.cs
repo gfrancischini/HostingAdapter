@@ -59,15 +59,29 @@ namespace HostingAdapter.Hosting.Channel
             get; set;
         }
 
-        /// <summary>
-        /// Construct a new Socket Server Channel on the required port
-        /// </summary>
-        /// <param name="messageSerializer"></param>
-        /// <param name="port"></param>
-        public SocketServerChannel(IMessageSerializer messageSerializer, int port) :  base(messageSerializer)
+		private bool IsLocalhost
+		{
+			get;
+			set;
+		}
+
+		private IPAddress IpAddress
+		{
+			get;
+			set;
+		}
+
+		/// <summary>
+		/// Construct a new Socket Server Channel on the required port
+		/// </summary>
+		/// <param name="messageSerializer"></param>
+		/// <param name="port"></param>
+		public SocketServerChannel(IMessageSerializer messageSerializer, int port, bool isLocalhost = false) :  base(messageSerializer)
         {
             this.Port = port;
-        }
+			this.IsLocalhost = isLocalhost;
+
+		}
 
         /// <summary>
         /// Initialize the socket server
@@ -75,10 +89,10 @@ namespace HostingAdapter.Hosting.Channel
         protected override void Initialize()
         {
             //retrieve the local ip address
-            IPAddress ipAddress = GetPhysicalIPAdress();
+            this.IpAddress = GetPhysicalIPAdress();
 
             // Set the listener on the local IP address and specify the port.
-            TcpListener = new TcpListener(ipAddress, this.Port);
+            TcpListener = new TcpListener(this.IpAddress, this.Port);
 
             // start listening,
             TcpListener.Start();
@@ -140,13 +154,18 @@ namespace HostingAdapter.Hosting.Channel
             ClientSocket.Shutdown(SocketShutdown.Both);
         }
 
-        /// <summary>
-        /// Get the first available phisical ip address
-        /// </summary>
-        /// <returns></returns>
-        public static IPAddress GetPhysicalIPAdress()
-        {
-            foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+		/// <summary>
+		/// Get the first available phisical ip address
+		/// </summary>
+		/// <returns></returns>
+		public IPAddress GetPhysicalIPAdress()
+		{
+			if (this.IsLocalhost)
+			{
+				return IPAddress.Parse("127.0.0.1");
+			}
+
+			foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
             {
                 if (ni.OperationalStatus != OperationalStatus.Up)
                 {
@@ -161,8 +180,8 @@ namespace HostingAdapter.Hosting.Channel
                         {
                             if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
                             {
-                                return ip.Address;
-                            }
+								return ip.Address;
+							}
                         }
                     }
                 }
